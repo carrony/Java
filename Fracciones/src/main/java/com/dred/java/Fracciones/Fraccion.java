@@ -10,7 +10,6 @@ public class Fraccion {
     }
     
     
-
 	/**
 	 * @param num
 	 * @param den
