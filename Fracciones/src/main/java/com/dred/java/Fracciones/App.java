@@ -1,5 +1,6 @@
 package com.dred.java.Fracciones;
 
+import java.util.Scanner;
 
 /**
  * Hello world!
@@ -9,13 +10,20 @@ public class App
 {
     public static void main( String[] args )
     {
-    	Fraccion f1=new Fraccion(4,8);
-    	Fraccion f2 = new Fraccion(3,4);
-    	Fraccion f3 = new Fraccion();
+    	Scanner leerTeclado = new Scanner(System.in);
+    	Fraccion f1 = new Fraccion();
+    	int num, den;
     	
-    	f3=f1.suma(f2);
+    	System.out.println("Introduce el numerador: ");
+    	num=leerTeclado.nextInt();
+    	System.out.println("Introduce el denominador: ");
+    	den=leerTeclado.nextInt();
+    	try {
+			f1.setFraccion(num,den);
+		} catch (DenominadorCeroException e) {
+			System.out.println("Error: "+e.getMessage());
+		}
     	System.out.println("la fracción 1 es:  "+f1.getNum()+" / "+ f1.getDen());
-    	System.out.println("la fracción 2 es:  "+f2.getNum()+" / "+ f2.getDen());
-    	System.out.println("la suma es:  "+f3.getNum()+" / "+ f3.getDen());
+
     }
 }

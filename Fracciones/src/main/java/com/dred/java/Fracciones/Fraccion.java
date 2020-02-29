@@ -13,8 +13,9 @@ public class Fraccion {
 	/**
 	 * @param num
 	 * @param den
+	 * @throws DenominadorCeroException 
 	 */
-	public Fraccion(int num, int den) {
+	public Fraccion(int num, int den) throws DenominadorCeroException {
 		this.setFraccion(num, den);
 	}
 
@@ -29,13 +30,10 @@ public class Fraccion {
 
 	/**
 	 * @param num es el numerador a establecer
+	 * @throws DenominadorCeroException 
 	 */
-	public void setNum(int num) {
-		if (num != 0) {
-			this.num = num;
-		} else {
-			System.out.println("eror, división por cero");
-		}
+	public void setNum(int num) throws DenominadorCeroException {
+		this.setFraccion(num, this.den);
 	}
 
 	/**
@@ -47,12 +45,16 @@ public class Fraccion {
 
 	/**
 	 * @param den el denominador a establecer
+	 * @throws DenominadorCeroException 
 	 */
-	public void setDen(int den) {
-		this.den = den;
+	public void setDen(int den) throws DenominadorCeroException {
+		this.setFraccion(this.num, den);
 	}   
 	
-	public void setFraccion(int num,int den) {
+	public void setFraccion(int num,int den) throws DenominadorCeroException {
+		if (den==0) {
+			throw new DenominadorCeroException();
+		}
 		int mcd = Fraccion.mcd(num, den);
 		this.num = num/mcd;
 		this.den = den/mcd;
@@ -78,10 +80,16 @@ public class Fraccion {
 	}
 	
 	public Fraccion suma(Fraccion f2) {
-		Fraccion res ;
+		Fraccion res=new Fraccion();
 		int denComun = this.den*f2.den;
-		
-		res =  new Fraccion(denComun/this.den*this.num + denComun/f2.den*f2.num, denComun);
+
+		try {
+			res.setFraccion(denComun/this.den*this.num + denComun/f2.den*f2.num, denComun);
+		} catch (DenominadorCeroException e) {
+			// No puede haber error, porque siempre se controla que 
+			// el denominador sea diferente de 0
+			e.printStackTrace();
+		}
 		return res;
 	}
 	
